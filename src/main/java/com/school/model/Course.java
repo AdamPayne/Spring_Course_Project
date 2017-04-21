@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +33,18 @@ public class Course {
 	@ManyToMany(mappedBy = "courses")
 	protected Set<Student> students = new HashSet<Student>();
 	
+	@ManyToOne
+	@JoinColumn(
+			name = "prof_id",
+			updatable = false, insertable = false)
+	@NotNull
+	protected Professor prof;
+	
 	public Course(){}
 	
-	public Course(String name){
+	public Course(String name, Professor prof){
 		this.name = name;
+		this.prof = prof;
 	}
 	
 	public Integer getId() {
