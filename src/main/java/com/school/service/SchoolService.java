@@ -72,4 +72,20 @@ public class SchoolService {
 	public Set<Professor> deleteProfessor(String name){
 		return profRepo.deleteByName(name);
 	}
+	
+	public Course findCourse(Integer id){
+		return courseRepo.findById(id);
+	}
+	
+	public Set<Course> findCourse(String name){
+		return courseRepo.findByName(name);
+	}
+	
+	public Integer deleteCourse(Integer id){
+		return courseRepo.deleteById(id);
+	}
+	
+	public Set<Course> deleteCourse(String name){
+		return courseRepo.deleteByName(name);
+	}
 }
