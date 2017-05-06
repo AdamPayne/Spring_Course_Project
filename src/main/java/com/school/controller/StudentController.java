@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.school.SchoolApplication;
 import com.school.model.Student;
-import com.school.service.SchoolService;
+import com.school.service.StudentService;
 
 /**
  * @author Dimitar Kumanov
@@ -25,7 +25,7 @@ public class StudentController {
 	private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 	
 	@Autowired
-	private SchoolService service;
+	private StudentService studentService;
 	
 	
 	/**
@@ -34,9 +34,9 @@ public class StudentController {
 	 * @param  name the name of the student
 	 * @return the newly created student
 	 */
-	@RequestMapping("/create")
+	@RequestMapping(value="/create", method = RequestMethod.POST)
 	public Student studentCreate(@RequestParam("name") String name) {
-		return service.addStudent(name);
+		return studentService.addStudent(name);
 	}
 	
 	
@@ -48,7 +48,7 @@ public class StudentController {
 	 */
 	@RequestMapping("/find/id/{id}")
 	public Student studentFindId(@PathVariable("id") Integer id) {
-		return service.findStudent(id);
+		return studentService.findStudent(id);
 	}
 	
 	
@@ -60,7 +60,7 @@ public class StudentController {
 	 */
 	@RequestMapping("/find/name/{name}")
 	public Set<Student> studentFindName(@PathVariable("name") String name) {
-		return service.findStudent(name);
+		return studentService.findStudent(name);
 	}
 	
 	/**
@@ -69,9 +69,9 @@ public class StudentController {
 	 * @param id the id of the student to be removed from the database
 	 * @return   the same id as the provided one
 	 */
-	@RequestMapping("/delete/id/{id}")
+	@RequestMapping(value="/delete/id/{id}", method = RequestMethod.DELETE)
 	public Integer studentDeleteId(@PathVariable("id") Integer id) {
-		return service.deleteStudent(id);
+		return studentService.deleteStudent(id);
 	}
 	
 	
@@ -81,8 +81,8 @@ public class StudentController {
 	 * @param name the name of the students to be removed from the database
 	 * @return     the list of removed students
 	 */
-	@RequestMapping("/delete/name/{name}")
+	@RequestMapping(value="/delete/name/{name}", method = RequestMethod.DELETE)
 	public Set<Student> studentDeleteName(@PathVariable("name") String name) {
-		return service.deleteStudent(name);
+		return studentService.deleteStudent(name);
 	}
 }

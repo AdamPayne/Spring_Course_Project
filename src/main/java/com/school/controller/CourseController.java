@@ -7,11 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.model.Course;
-import com.school.service.SchoolService;
+import com.school.service.CourseService;
 
 /**
  * @author Dimitar Kumanov
@@ -24,7 +25,7 @@ public class CourseController {
 	private static final Logger log = LoggerFactory.getLogger(CourseController.class);
 	
 	@Autowired
-	private SchoolService service;
+	private CourseService courseService;
 	
 	/**
 	 * Creates a course with the given name, taught by the professor with given id
@@ -33,9 +34,9 @@ public class CourseController {
 	 * @param id   the id of the professor teaching the course
 	 * @return     the newly created course object
 	 */
-	@RequestMapping("/create")
+	@RequestMapping(value="/create", method = RequestMethod.POST)
 	public Course courseCreate(@RequestParam("name") String name, @RequestParam("profID") Integer id) {
-		return service.addCourse(name, id);
+		return courseService.addCourse(name, id);
 	}
 	
 	/**
@@ -46,7 +47,7 @@ public class CourseController {
 	 */
 	@RequestMapping("/find/id/{id}")
 	public Course courseFindId(@PathVariable("id") Integer id) {
-		return service.findCourse(id);
+		return courseService.findCourse(id);
 	}
 	
 	/**
@@ -57,7 +58,7 @@ public class CourseController {
 	 */
 	@RequestMapping("/find/name/{name}")
 	public Set<Course> courseFindName(@PathVariable("name") String name) {
-		return service.findCourse(name);
+		return courseService.findCourse(name);
 	}
 	
 	/**
@@ -66,9 +67,9 @@ public class CourseController {
 	 * @param id the id of the course to be removed from the database
 	 * @return   the same id as the provided one
 	 */
-	@RequestMapping("/delete/id/{id}")
+	@RequestMapping(value="/delete/id/{id}", method = RequestMethod.DELETE)
 	public Integer courseDeleteId(@PathVariable("id") Integer id) {
-		return service.deleteCourse(id);
+		return courseService.deleteCourse(id);
 	}
 	
 	/**
@@ -77,9 +78,9 @@ public class CourseController {
 	 * @param name the name of the courses to be removed from the database
 	 * @return     the list of removed courses
 	 */
-	@RequestMapping("/delete/name/{name}")
+	@RequestMapping(value="/delete/name/{name}", method = RequestMethod.DELETE)
 	public Set<Course> courseDeleteName(@PathVariable("name") String name) {
-		return service.deleteCourse(name);
+		return courseService.deleteCourse(name);
 	}
 
 }

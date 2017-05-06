@@ -3,18 +3,21 @@ package com.school.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="professor")
@@ -29,13 +32,11 @@ public class Professor {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@OneToMany
-	@JoinColumn(
-			name = "prof_id",
-			nullable = false)
+	@OneToMany(mappedBy="prof", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@OrderColumn(
 			name = "prof_id",
 			nullable = false)
+	@JsonBackReference
 	protected Set<Course> courses = new HashSet<Course>();
 	
 	public Professor(){}
@@ -46,10 +47,6 @@ public class Professor {
 
 	public Integer getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -66,5 +63,9 @@ public class Professor {
 
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
+	}
+	
+	public void addCourse(Course course) {
+		this.courses.add(course);
 	}
 }

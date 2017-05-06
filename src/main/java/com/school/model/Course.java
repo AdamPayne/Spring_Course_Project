@@ -12,10 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "course")
@@ -36,8 +37,8 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(
 			name = "prof_id",
-			updatable = false, insertable = false)
-	@NotNull
+			updatable = false, insertable = true, nullable = false)
+	@JsonManagedReference
 	protected Professor prof;
 	
 	public Course(){}
@@ -65,5 +66,13 @@ public class Course {
 
 	public void setStudents(Set<Student> students) {
 		this.students = students;
+	}
+
+	public Professor getProf() {
+		return prof;
+	}
+
+	public void setProf(Professor prof) {
+		this.prof = prof;
 	}
 }

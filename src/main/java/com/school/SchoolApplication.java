@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.school.model.Course;
 import com.school.model.Professor;
 import com.school.model.Student;
-import com.school.service.SchoolService;
 
 @EntityScan(basePackages = "com.school.model")
 @EnableJpaRepositories(basePackages="com.school.repository")
