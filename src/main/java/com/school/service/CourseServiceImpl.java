@@ -24,11 +24,8 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public Course addCourse(String name, Integer profId){
 		Professor prof = profRepo.findById(profId);
-		log.info(prof.getId().toString());
 		Course course = new Course(name, prof);
-		//prof.addCourse(course);
 		courseRepo.save(course);
-		//profRepo.save(prof);
 		return course;
 	}
 	

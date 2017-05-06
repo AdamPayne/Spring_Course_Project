@@ -36,13 +36,19 @@ public class Course {
 	@ManyToMany(mappedBy = "courses")
 	private Set<Student> students = new HashSet<Student>();
 	
-	
 	@ManyToOne
 	@JoinColumn(
 			name = "prof_id",
 			insertable = true, updatable = true,  nullable = false)
 	@JsonManagedReference
 	private Professor prof;
+	
+	@ManyToOne
+	@JoinColumn(
+			name = "room_id",
+			insertable = true, updatable = true,  nullable = true)
+	@JsonManagedReference
+	private Room room;
 	
 	// constructors
 	public Course(){}
