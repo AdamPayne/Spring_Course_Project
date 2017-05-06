@@ -21,26 +21,30 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "course")
 public class Course {
+	
 	private static final Logger log = LoggerFactory.getLogger(Course.class);
 	
+	//properties
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
-	protected Integer id;
+	@Column(name="course_id", unique = true, nullable = false)
+	private Integer id;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@ManyToMany(mappedBy = "courses")
-	protected Set<Student> students = new HashSet<Student>();
+	private Set<Student> students = new HashSet<Student>();
+	
 	
 	@ManyToOne
 	@JoinColumn(
 			name = "prof_id",
-			updatable = false, insertable = true, nullable = false)
+			insertable = true, updatable = true,  nullable = false)
 	@JsonManagedReference
-	protected Professor prof;
+	private Professor prof;
 	
+	// constructors
 	public Course(){}
 	
 	public Course(String name, Professor prof){
@@ -48,6 +52,7 @@ public class Course {
 		this.prof = prof;
 	}
 	
+	// getters and setters
 	public Integer getId() {
 		return id;
 	}

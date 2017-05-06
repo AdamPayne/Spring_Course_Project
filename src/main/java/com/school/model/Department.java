@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -20,41 +18,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name="professor")
-public class Professor {
+@Table(name="department")
+public class Department {
 	
-	private static final Logger log = LoggerFactory.getLogger(Professor.class);
+	private static final Logger log = LoggerFactory.getLogger(Department.class);
 	
 	//properties
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="prof_id", unique = true, nullable = false)
+	@Column(name="dep_id", unique = true, nullable = false)
 	private Integer id;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@ManyToOne
-	@JoinColumn(
-			name = "dep_id",
-			insertable = true, updatable = true, nullable = true)
-	@JsonManagedReference
-	private Department dep;
-	
-	@OneToMany(mappedBy="prof", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="dep", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@OrderColumn(
-			name = "prof_id",
+			name = "dep_id",
 			nullable = false)
 	@JsonBackReference
-	private Set<Course> courses = new HashSet<Course>();
+	private Set<Professor> professors = new HashSet<Professor>();
 	
-	//constructors
-	public Professor(){}
+	// constructors
+	public Department(){}
 	
-	public Professor(String name){
+	public Department(String name){
 		this.name = name;
 	}
 	
@@ -71,15 +61,11 @@ public class Professor {
 		this.name = name;
 	}
 
-	public Set<Course> getCourses() {
-		return courses;
+	public Set<Professor> getProfessors() {
+		return professors;
 	}
 
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
-	}
-	
-	public void addCourse(Course course) {
-		this.courses.add(course);
+	public void setProfessors(Set<Professor> professors) {
+		this.professors = professors;
 	}
 }
